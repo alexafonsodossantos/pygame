@@ -62,6 +62,12 @@ while running:
         if circle_y != screen_h - circle_r:
             circle_y += 1
             percorrido += 1
+        #else:
+        #    if circle_r >=20:
+        #        circle_r -=10
+        #        circle_y = circle_y
+        #    else:    
+        #        circle_y = circle_y
 
     screen.fill((0, 0, 0))
     
@@ -73,6 +79,7 @@ while running:
         rect_x = randint(rect_w, screen_w - rect_w)
         rect_y = randint(rect_h, screen_h - rect_h)
         collides += 1
+        circle_r += 10
     
 
 
