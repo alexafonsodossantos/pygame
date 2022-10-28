@@ -30,8 +30,12 @@ rect_x = randint(rect_w, screen_w - rect_w)
 rect_y = randint(rect_h, screen_h - rect_h)
 percorrido = 0
 collides = 0
-
-
+esq = False
+direita = False
+cima = False
+baixo = False
+tamanho = 1
+screen_collide = False
 pygame.init()
 screen = pygame.display.set_mode([screen_w, screen_h])
 
@@ -44,30 +48,52 @@ while running:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-        if circle_x != circle_r:
-            circle_x -= 1
-            percorrido += 1
+            esq = True
+            direita = False
+            cima = False
+            baixo = False
 
     if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-        if circle_x != screen_w - circle_r:
-            circle_x += 1
-            percorrido += 1
+            esq = False
+            direita = True
+            cima = False
+            baixo = False
 
     if keys[pygame.K_UP] or keys[pygame.K_w]:
-        if circle_y != circle_r:
-            circle_y -= 1
-            percorrido += 1
+            esq = False
+            direita = False
+            cima = True
+            baixo = False
 
     if keys[pygame.K_DOWN] or keys[pygame.K_s]:
+            esq = False
+            direita = False
+            cima = False
+            baixo = True
+
+    if cima:
+        if circle_y != circle_r:
+            circle_y -=1
+        else:
+            screen_collide = True
+
+    if baixo:
         if circle_y != screen_h - circle_r:
-            circle_y += 1
-            percorrido += 1
-        #else:
-        #    if circle_r >=20:
-        #        circle_r -=10
-        #        circle_y = circle_y
-        #    else:    
-        #        circle_y = circle_y
+            circle_y +=1
+
+    if esq:
+        if circle_x != circle_r:
+            circle_x -=1
+        else:
+            screen_collide = True
+
+
+    if direita:
+        if circle_x != screen_w - circle_r:
+            circle_x +=1
+        else:
+            screen_collide = True
+
 
     screen.fill((0, 0, 0))
     
@@ -79,7 +105,19 @@ while running:
         rect_x = randint(rect_w, screen_w - rect_w)
         rect_y = randint(rect_h, screen_h - rect_h)
         collides += 1
+        tamanho += 1
     
+    if screen_collide:
+        circle_x = screen_w / 2
+        circle_y = screen_h / 2 
+        esq = False
+        direita = False
+        cima = False
+        baixo = False
+        collides = 0
+        screen_collide = False
+    
+
     pygame.draw.circle(screen, (0, 0, 255), (circle_x, circle_y), circle_r)
 
 
